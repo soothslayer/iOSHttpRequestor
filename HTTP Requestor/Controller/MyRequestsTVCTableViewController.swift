@@ -9,7 +9,37 @@
 import UIKit
 
 class MyRequestsTVCTableViewController: UITableViewController {
+    
+    var names: [String] = []
 
+    @IBAction func addRequest(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "New Name",
+                                      message: "Add a new name",
+                                      preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Save",
+                                       style: .default) {
+                                        [unowned self] action in
+                                        
+                                        guard let textField = alert.textFields?.first,
+                                            let nameToSave = textField.text else {
+                                                return
+                                        }
+                                        
+                                        self.names.append(nameToSave)
+                                        self.tableView.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .cancel)
+        
+        alert.addTextField()
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,29 +48,33 @@ class MyRequestsTVCTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        title = "The List"
+        tableView.register(UITableViewCell.self,
+                           forCellReuseIdentifier: "MyBasicRequest")
+        
+        
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return names.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MyBasicRequest", for: indexPath)
 
-        // Configure the cell...
+        cell.textLabel?.text = names[indexPath.row]
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

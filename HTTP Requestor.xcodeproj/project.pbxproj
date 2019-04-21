@@ -104,7 +104,6 @@
 				BDE3F0B5226BD70F003981A9 /* Controller */,
 				BDE3F0B4226BD700003981A9 /* View */,
 				BDE3F0B3226BD6FA003981A9 /* Modal */,
-				BDE3F0B2226BD6EC003981A9 /* New Group */,
 				BDE3F081226BC410003981A9 /* AppDelegate.swift */,
 				BDE3F083226BC410003981A9 /* ViewController.swift */,
 				BDE3F085226BC410003981A9 /* Main.storyboard */,
@@ -132,13 +131,6 @@
 				BDE3F0A6226BC412003981A9 /* Info.plist */,
 			);
 			path = "HTTP RequestorUITests";
-			sourceTree = "<group>";
-		};
-		BDE3F0B2226BD6EC003981A9 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		BDE3F0B3226BD6FA003981A9 /* Modal */ = {
