@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class MyRequestsTVCTableViewController: UITableViewController {
     
-    var names: [String] = []
+    var storedHttpRequests: [NSManagedObject] = []
 
     @IBAction func addRequest(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "New Name",
@@ -26,7 +27,7 @@ class MyRequestsTVCTableViewController: UITableViewController {
                                                 return
                                         }
                                         
-                                        self.names.append(nameToSave)
+                                        self.save(name: nameToSave)
                                         self.tableView.reloadData()
         }
         
@@ -39,6 +40,26 @@ class MyRequestsTVCTableViewController: UITableViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
+    }
+    func save(name: String) {
+        gaurd let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate!.persistentContainer.viewContext
+        
+        let entity = NSEntityDescription.entity(forEntityName: "HTTPRequest", in managedContext)!
+        
+        let httpRequest = NSManagedObject(entity: entity, insertInto: managedContext)
+        
+        httpRequest.setValue(httpURL, forKeyPath: "httpURL")
+        
+        do {
+            try managedContext.save()
+            storedHttpRequests.append(httpRequest)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,14 +85,15 @@ class MyRequestsTVCTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return names.count
+        return storedHttpRequests.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let httpRequest = storedHttpRequests[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyBasicRequest", for: indexPath)
 
-        cell.textLabel?.text = names[indexPath.row]
+        cell.textLabel?.text = httpRequest.value(forKeyPath: "httpURL") as? String
 
         return cell
     }
