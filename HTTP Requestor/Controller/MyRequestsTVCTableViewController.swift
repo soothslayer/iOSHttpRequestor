@@ -42,17 +42,19 @@ class MyRequestsTVCTableViewController: UITableViewController {
         present(alert, animated: true)
     }
     func save(name: String) {
-        gaurd let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
         }
         
-        let managedContext = appDelegate!.persistentContainer.viewContext
+        let managedContext = appDelegate.persistentContainer.viewContext
         
-        let entity = NSEntityDescription.entity(forEntityName: "HTTPRequest", in managedContext)!
+        let entity = NSEntityDescription.entity(forEntityName: "HTTPRequest",
+                                                in: managedContext)!
         
         let httpRequest = NSManagedObject(entity: entity, insertInto: managedContext)
         
-        httpRequest.setValue(httpURL, forKeyPath: "httpURL")
+        httpRequest.setValue(name, forKeyPath: "httpURL")
         
         do {
             try managedContext.save()
