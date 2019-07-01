@@ -41,6 +41,18 @@ class MyRequestsTVCTableViewController: UITableViewController {
         
         present(alert, animated: true)
     }
+    func loadObject() -> NSManagedObject {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        
+        let managedContext = appDelegate?.persistentContainer.viewContext
+        
+        let entity = NSEntityDescription.entity(forEntityName: "HTTPRequest",
+                                                in: managedContext!)!
+        
+        let httpRequest = NSManagedObject(entity: entity, insertInto: managedContext)
+        
+        return httpRequest
+    }
     func save(name: String) {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -62,6 +74,9 @@ class MyRequestsTVCTableViewController: UITableViewController {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+    func deleteCell(name: String) {
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
